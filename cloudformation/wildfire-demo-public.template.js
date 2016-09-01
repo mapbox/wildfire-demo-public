@@ -362,8 +362,8 @@ module.exports = {
               'Fn::Join': [
                 '',
                 [
-                  '{"wildfireMapboxAccessToken":"',
-                  { Ref: 'wildfireMapboxAccessToken' },
+                  '{"mapboxAccessToken":"',
+                  { Ref: 'mapboxAccessToken' },
                   '","inciwebid":"$input.params(\'id\')"}',
                 ],
               ],
