@@ -1,0 +1,54 @@
+{
+  "name": "wildfire-demo",
+  "version": "0.1.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "update": "bin/update.js",
+    "lint": "eslint lib scripts app",
+    "start": "budo app/js/app.js --live --open --dir ./app -- -t babelify",
+    "build": "NODE_ENV='production' browserify -t babelify app/js/app.js | uglifyjs - --compress --mangle > bites/app.js && cp app/index.html bites/index.html && cp app/style.css bites/style.css && cp app/img/* bites/img",
+    "bite": "cp -R bites/* ../bites/bites/00288",
+    "manual-4797": "curl \"http://wildfire.cr.usgs.gov/arcgis/rest/services/geomac_dyn/MapServer/5/query?f=json&outFields=*&outSR=4326&where=inciwebid='4797'\" > local/data.json && node local/manualUpdate.js"
+  },
+  "engines": {
+    "node": "4.4.3"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@turf/bbox": "^3.3.3",
+    "arcgis-to-geojson-utils": "^1.0.1",
+    "d3-queue": "^3.0.2",
+    "escape-html": "^1.0.3",
+    "lodash": "^4.15.0",
+    "mapbox": "^1.0.0-beta3",
+    "react": "^15.3.1",
+    "react-dom": "^15.3.1",
+    "request": "^2.74.0",
+    "streambot": "^4.0.0",
+    "xhr": "^2.2.2",
+    "xml2js": "^0.4.17"
+  },
+  "devDependencies": {
+    "babel-preset-es2015": "^6.13.2",
+    "babel-preset-react": "^6.11.1",
+    "babelify": "^7.3.0",
+    "budo": "^9.0.0",
+    "eslint": "^3.3.1",
+    "eslint-config-davidtheclark-node": "^0.1.1",
+    "eslint-plugin-node": "^2.0.0",
+    "eslint-plugin-react": "^6.1.2",
+    "uglify-js": "^2.7.3"
+  },
+  "babel": {
+    "presets": [
+      "es2015",
+      "react"
+    ]
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mapbox/wildfire-demo"
+  }
+}

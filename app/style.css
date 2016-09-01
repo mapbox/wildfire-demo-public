@@ -1,0 +1,261 @@
+a {
+  color: rgba(187, 22, 22, 0.75);
+}
+
+a:hover, a:focus {
+  color: rgb(216, 15, 15);
+}
+
+.button.button-fire:not(.disabled),
+.button.button-fire:focus:not(.disabled) {
+  background: transparent;
+  color: rgba(187, 22, 22, 0.75);
+  box-shadow: 0px 0px 0px 2px rgba(187, 22, 22, 0.75) inset;
+}
+
+.button.button-fire:hover:not(.disabled) {
+  color: rgb(216, 15, 15);
+  box-shadow: 0px 0px 0px 2px rgb(216, 15, 15) inset;
+}
+
+.button.button-fire-power:not(.disabled),
+.button.button-fire-power:focus:not(.disabled) {
+  background: rgba(187, 22, 22, 0.75);
+  box-shadow: none;
+  color: #fff;
+}
+
+.button.button-fire-power:hover:not(.disabled) {
+  background: rgb(216, 15, 15);
+  box-shadow: none;
+  color: #fff;
+}
+
+.button-fire-special-icon {
+  fill: rgba(187, 22, 22, 0.75);
+  padding: 5px;
+  width: 30px;
+}
+
+.button-fire-special-icon:hover {
+  fill: rgb(216, 15, 15);
+}
+
+.button-fire-special-icon svg {
+  width: 100%;
+  height: 100%;
+}
+
+.container {
+  position: relative;
+  height: 600px;
+}
+
+.container-map {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+
+.container-detail {
+  position: absolute;
+  z-index: 50;
+  top: 10px;
+  bottom: 10px;
+  right: 10px;
+  width: 350px;
+  background: rgba(248, 248, 248, 0.9);
+}
+
+.container-detail.is-hidden {
+  display: none;
+}
+
+.preview {
+  position: absolute;
+  z-index: 100;
+  top: 10px;
+  left: 10px;
+  padding: 10px;
+  background: rgba(248, 248, 248, 0.9);
+}
+
+.preview-title {
+  margin-bottom: 10px;
+}
+
+.detail-close {
+  margin-top: -10px;
+}
+
+.detail-content {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 10px;
+  margin: 0 20px 40px;
+}
+
+.detail-content-text {
+  word-wrap: break-word;
+}
+
+.detail-footer {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+
+.block {
+  display: block;
+}
+
+.scroll-styled {
+  -webkit-overflow-scrolling: touch;
+}
+
+.perimeter-button {
+  float: left;
+}
+
+.timeline-button {
+  float: right;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(-360deg); }
+}
+.timeline-button.minus::before {
+  animation: spin 0.75s linear infinite;
+}
+
+.news-button {
+  display: none;
+}
+
+.detail-header-text {
+  min-height: 30px;
+}
+
+.timeline-controls {
+  height: 30px;
+}
+
+.timeline-controls-info {
+  position: absolute;
+  width: 90px;
+  margin-left: -45px;
+  left: 50%;
+  margin-top: -5px;
+}
+
+.timeline-controls {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  right: 10px;
+}
+
+.timeline-items {
+  position: absolute;
+  top: 50px;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding-left: 10px;
+  padding-right: 10px;
+  padding-bottom: 10px;
+}
+
+.intro-backdrop {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: rgba(0, 0, 0, 0.4);
+  z-index: 500;
+  padding: 40px;
+}
+
+.intro {
+  background: #fff;
+  max-width: 900px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.intro-grid {
+  margin: -10px;
+}
+
+@media (max-width: 700px) {
+  .container-detail {
+    left: 10px;
+    bottom: auto;
+    width: auto;
+  }
+
+  .detail-close {
+    margin-top: 0;
+  }
+
+  .preview {
+    display: none;
+  }
+
+  .mapboxgl-ctrl-attrib {
+    font-size: 10px;
+  }
+
+  .news-button {
+    display: block;
+  }
+
+  .zoom-button,
+  .timeline-button,
+  .detail-link {
+    float: none;
+    width: 100%;
+  }
+
+  .detail-header {
+    padding: 0;
+    margin: 10px;
+    min-height: 40px;
+  }
+
+  .detail-content {
+    position: static;
+    margin: 10px;
+  }
+
+  .detail-footer {
+    position: static;
+    padding: 0;
+    margin: 0 10px 10px;
+  }
+
+  .timeline-controls {
+    position: relative;
+    top: 0;
+    left: 0;
+    right: 0;
+  }
+
+  .intro-backdrop {
+    padding: 10px;
+  }
+
+  .intro-grid-item {
+    width: 100%;
+    max-width: 300px;
+    float: none;
+    margin-left: auto;
+    margin-right: auto;
+  }
+}

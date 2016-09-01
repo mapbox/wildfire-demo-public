@@ -1,2 +1,3 @@
-# wildfire-demo-public
-A demo map of U.S. wildfires
+# wildfire-demo
+
+A demo map of US wildfires.

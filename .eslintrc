@@ -1,0 +1,21 @@
+{
+  "extends": "eslint-config-davidtheclark-node",
+  "env": {
+    "browser": true
+  },
+  "globals": {
+    "mapboxgl": true
+  },
+  "parserOptions": {
+    "ecmaFeatures": {
+      "jsx": true
+    }
+  },
+  "plugins": [
+    "react"
+  ],
+  "rules": {
+    "react/jsx-uses-react": "error",
+    "react/jsx-uses-vars": "error"
+  }
+}
