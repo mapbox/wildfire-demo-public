@@ -10,7 +10,7 @@ const isSmallScreen = require('./isSmallScreen');
 const formatDate = require('./formatDate');
 const Timeline = require('./Timeline');
 
-const proxyApiEndpoint = 'https://0t1mkx2umd.execute-api.us-east-1.amazonaws.com/wildfires/perimeter';
+const proxyApiEndpoint = 'https://bojokx59pd.execute-api.us-east-1.amazonaws.com/wildfires/perimeter';
 
 const Detail = React.createClass({
   propTypes: {
