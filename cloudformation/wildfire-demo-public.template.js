@@ -155,7 +155,7 @@ module.exports = {
             'Fn::Join': [
               '',
               [
-                'slugs/wildfire-demo/',
+                'slugs/wildfire-demo-public/',
                 { Ref: 'GitSha' },
                 '.zip',
               ],
@@ -234,7 +234,7 @@ module.exports = {
             'Fn::Join': [
               '',
               [
-                'slugs/wildfire-demo/',
+                'slugs/wildfire-demo-public/',
                 { Ref: 'GitSha' },
                 '.zip',
               ],
