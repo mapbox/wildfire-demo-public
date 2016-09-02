@@ -226,6 +226,9 @@ const Detail = React.createClass({
       if (articles.length > 0) {
         feed = (
           <div>
+            <div className='strong space-top2 space-bottom1'>
+              Reports
+            </div>
             {articles}
           </div>
         );

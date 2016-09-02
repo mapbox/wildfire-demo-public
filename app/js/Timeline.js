@@ -272,6 +272,7 @@ const Timeline = React.createClass({
       return (
         <a key={i} className={classes}
           ref={ref}
+          tabIndex={1}
           onClick={() => this.selectPerimeter(perimeter)}>
           {display}
         </a>
@@ -279,10 +280,10 @@ const Timeline = React.createClass({
     });
 
     return (
-      <div ref={(el) => this.el = el}>
+      <div ref={(el) => this.el = el}
+        onKeyDown={this.handleKeyDown}>
         {controls}
-        <div onKeyDown={this.handleKeyDown}
-          className='timeline-items scroll-styled pill'>
+        <div className='timeline-items scroll-styled pill'>
           {perimeters}
         </div>
       </div>
