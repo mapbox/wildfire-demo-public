@@ -56,7 +56,14 @@ const Detail = React.createClass({
         if (err) throw err;
         const perimeterCollection = JSON.parse(body);
         if (!this.el) return;
-        if (!perimeterCollection || perimeterCollection.features.length <= 1) {
+        const isBadResponse = !perimeterCollection || !perimeterCollection.features;
+        if (isBadResponse) {
+          /* eslint-disable no-console */
+          console.error('Bad perimeter collection:');
+          console.error(body);
+          /* eslint-enable */
+        }
+        if (isBadResponse || perimeterCollection.features.length <= 1) {
           this.setState({ timelineEnabled: false });
         } else {
           this.setState({ perimeterCollection });
