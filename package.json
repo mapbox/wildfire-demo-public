@@ -9,7 +9,7 @@
     "start": "budo app/js/app.js --live --open --dir ./app -- -t babelify",
     "build": "NODE_ENV='production' browserify -t babelify app/js/app.js | uglifyjs - --compress --mangle > bites/app.js && cp app/index.html bites/index.html && cp app/style.css bites/style.css && cp app/img/* bites/img",
     "bite": "cp -R bites/* ../bites/bites/00288",
-    "manual-4797": "curl \"http://wildfire.cr.usgs.gov/arcgis/rest/services/geomac_dyn/MapServer/5/query?f=json&outFields=*&outSR=4326&where=inciwebid='4797'\" > local/data.json && node local/manualUpdate.js"
+    "manual-update": "local/manualUpdate.js"
   },
   "engines": {
     "node": "4.4.3"
