@@ -11,17 +11,37 @@ module.exports = {
       Type: 'String',
       Description: 'The SHA',
     },
-    wildfireDatasetId: {
-      Type: 'String',
-      Description: 'dataset id',
-    },
-    wildfireOwnerId: {
+    ownerId: {
       Type: 'String',
       Description: 'owner id',
     },
-    wildfireMapboxAccessToken: {
+    mapboxAccessToken: {
       Type: 'String',
       Description: 'mapbox access token',
+    },
+    pointsDatasetId: {
+      Type: 'String',
+      Description: 'points dataset id',
+    },
+    pointsTilesetName: {
+      Type: 'String',
+      Description: 'points tileset name',
+    },
+    articlesDatasetId: {
+      Type: 'String',
+      Description: 'articles dataset id',
+    },
+    maxPerimetersDatasetId: {
+      Type: 'String',
+      Description: 'max perimeters dataset id',
+    },
+    maxPerimetersTilesetName: {
+      Type: 'String',
+      Description: 'max perimeters tileset name',
+    },
+    perimeterDatasetNamePrefix: {
+      Type: 'String',
+      Description: 'prefix for perimeter dataset names',
     },
     StreambotFunctionArn: {
       Type: 'String',
@@ -182,9 +202,14 @@ module.exports = {
         FunctionName: {
           Ref: 'UpdateFunction',
         },
-        wildfireDatasetId: { Ref: 'wildfireDatasetId' },
-        wildfireOwnerId: { Ref: 'wildfireOwnerId' },
-        wildfireMapboxAccessToken: { Ref: 'wildfireMapboxAccessToken' },
+        ownerId: { Ref: 'ownerId' },
+        mapboxAccessToken: { Ref: 'mapboxAccessToken' },
+        pointsDatasetId: { Ref: 'pointsDatasetId' },
+        pointsTilesetName: { Ref: 'pointsTilesetName' },
+        articlesDatasetId: { Ref: 'articlesDatasetId' },
+        maxPerimetersDatasetId: { Ref: 'maxPerimetersDatasetId' },
+        maxPerimetersTilesetName: { Ref: 'maxPerimetersTilesetName' },
+        perimeterDatasetNamePrefix: { Ref: 'perimeterDatasetNamePrefix' },
       },
     },
     ProxyRole: {
@@ -362,8 +387,8 @@ module.exports = {
               'Fn::Join': [
                 '',
                 [
-                  '{"wildfireMapboxAccessToken":"',
-                  { Ref: 'wildfireMapboxAccessToken' },
+                  '{"mapboxAccessToken":"',
+                  { Ref: 'mapboxAccessToken' },
                   '","inciwebid":"$input.params(\'id\')"}',
                 ],
               ],

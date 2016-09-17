@@ -7,9 +7,14 @@ const listFeaturesByInciwebid = require('./lib/listFeaturesByInciwebid');
 
 module.exports.update = streambot((event, callback) => {
   update({
-    datasetId: process.env.wildfireDatasetId,
-    ownerId: process.env.wildfireOwnerId,
-    mapboxAccessToken: process.env.wildfireMapboxAccessToken,
+    ownerId: process.env.ownerId,
+    mapboxAccessToken: process.env.mapboxAccessToken,
+    pointsDatasetId: process.env.pointsDatasetId,
+    pointsTilesetName: process.env.pointsTilesetName,
+    articlesDatasetId: process.env.articlesDatasetId,
+    maxPerimetersDatasetId: process.env.maxPerimetersDatasetId,
+    maxPerimetersTilesetName: process.env.maxPerimetersTilesetName,
+    perimeterDatasetNamePrefix: process.env.perimeterDatasetNamePrefix,
   })
     .then(() => {
       console.log('Successful update');
