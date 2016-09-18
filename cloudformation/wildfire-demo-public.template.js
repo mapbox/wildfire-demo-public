@@ -389,7 +389,10 @@ module.exports = {
                 [
                   '{"mapboxAccessToken":"',
                   { Ref: 'mapboxAccessToken' },
-                  '","inciwebid":"$input.params(\'id\')"}',
+                  '","inciwebid":"$input.params(\'id\')",',
+                  '"perimeterDatasetNamePrefix":"',
+                  { Ref: 'perimeterDatasetNamePrefix' },
+                  '"}',
                 ],
               ],
             },

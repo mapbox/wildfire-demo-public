@@ -1,6 +1,8 @@
 'use strict';
 
 module.exports = {
+  MIN_ZOOM: 4,
+  MAX_ZOOM: 12.5,
   DATASET_NAME: 'fires',
   LAYER_FIRE_POINTS: 'fire points',
   LAYER_FIRE_PERIMETERS: 'fire perimeters',

@@ -49,7 +49,7 @@ const Detail = React.createClass({
     this.setState({ headerSize: this.headerEl.clientHeight });
 
     const firePointProperties = this.props.firePoint.properties;
-    if (firePointProperties.perimeterExtent && firePointProperties.gisacres && firePointProperties.gisacres > 10000) {
+    if (firePointProperties.perimeterExtent && firePointProperties.acres) {
       this.setState({ timelineEnabled: true });
       const url = `${proxyApiEndpoint}/${this.inciwebid}`;
       xhr(url, (err, response, body) => {
@@ -127,9 +127,9 @@ const Detail = React.createClass({
   render() {
     const firePoint = this.props.firePoint;
 
-    const burnedArea = (firePoint.properties.gisacres === 0) ? null : (
+    const burnedArea = (firePoint.properties.acres === 0) ? null : (
       <div className='detail-details small'>
-        <span className='quiet'>Burned area:</span> {firePoint.properties.gisacres} acres
+        <span className='quiet'>Burned area:</span> {firePoint.properties.acres} acres
       </div>
     );
 

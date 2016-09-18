@@ -5,6 +5,7 @@ const ReactDOM = require('react-dom');
 const initPreview = require('./initPreview');
 const initDetail = require('./initDetail');
 const Intro = require('./Intro');
+const constants = require('./constants');
 
 mapboxgl.accessToken = 'pk.eyJ1IjoiZGF2aWR0aGVjbGFyayIsImEiOiJjaW93emVwanowMW5ldGhtNGI2N293eDY3In0.-hV-UWrYPEZWbILtCFFbOg';
 
@@ -15,14 +16,14 @@ const isEmbedded = window.location.href.split('?')[1] && window.location.href.sp
 
 const map = new mapboxgl.Map({
   container: mapContainer,
-  style: 'mapbox://styles/davidtheclark/cis3yanli000kgnkonqhnl9ts?fresh=true',
-  maxBounds: [-171, 21, -57, 72],
+  style: 'mapbox://styles/davidtheclark/cit7gjb2n001a2wrymxzu5dd9?fresh=true',
+  maxBounds: [-138, 21, -57, 51],
   center: (isSmallScreen)
     ? [-113.41187244951925, 45.2139740125572]
     : [-115.4722057096243, 40.89186465794805],
-  zoom: 5,
-  minZoom: 5, // minzoom at which data will appear
-  maxZoom: 12.5,
+  zoom: constants.MIN_ZOOM,
+  minZoom: constants.MIN_ZOOM, // minzoom at which data will appear
+  maxZoom: constants.MAX_ZOOM,
   scrollZoom: !isEmbedded,
 });
 window.map = map;
