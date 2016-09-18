@@ -10,7 +10,7 @@ const isSmallScreen = require('./isSmallScreen');
 const formatDate = require('./formatDate');
 const Timeline = require('./Timeline');
 
-const proxyApiEndpoint = 'https://bojokx59pd.execute-api.us-east-1.amazonaws.com/wildfires/perimeter';
+const PROXY_API_ENDPOINT = 'https://qc0svttww5.execute-api.us-east-1.amazonaws.com/wildfires/perimeter';
 
 const Detail = React.createClass({
   propTypes: {
@@ -51,7 +51,7 @@ const Detail = React.createClass({
     const firePointProperties = this.props.firePoint.properties;
     if (firePointProperties.perimeterExtent && firePointProperties.acres) {
       this.setState({ timelineEnabled: true });
-      const url = `${proxyApiEndpoint}/${this.inciwebid}`;
+      const url = `${PROXY_API_ENDPOINT}/${this.inciwebid}`;
       xhr(url, (err, response, body) => {
         if (err) throw err;
         const perimeterCollection = JSON.parse(body);
