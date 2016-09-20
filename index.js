@@ -12,7 +12,6 @@ module.exports.update = streambot((event, callback) => {
     mapboxAccessToken: process.env.mapboxAccessToken,
     pointsDatasetId: process.env.pointsDatasetId,
     pointsTilesetName: process.env.pointsTilesetName,
-    articlesDatasetId: process.env.articlesDatasetId,
     maxPerimetersDatasetId: process.env.maxPerimetersDatasetId,
     maxPerimetersTilesetName: process.env.maxPerimetersTilesetName,
     perimeterDatasetNamePrefix: process.env.perimeterDatasetNamePrefix,
