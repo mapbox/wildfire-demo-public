@@ -10,7 +10,7 @@ const isSmallScreen = require('./isSmallScreen');
 const formatDate = require('./formatDate');
 const Timeline = require('./Timeline');
 
-const PROXY_API_ENDPOINT = 'https://qc0svttww5.execute-api.us-east-1.amazonaws.com/wildfires/perimeter';
+const PROXY_API_ENDPOINT = 'https://9o3ah6lwmg.execute-api.us-east-1.amazonaws.com/wildfires';
 
 const Detail = React.createClass({
   propTypes: {
@@ -53,8 +53,8 @@ const Detail = React.createClass({
     const firePointProperties = this.props.firePoint.properties;
     if (firePointProperties.perimeterExtent && firePointProperties.acres) {
       this.setState({ timelineEnabled: true });
-      const url = `${PROXY_API_ENDPOINT}/${this.inciwebid}`;
-      xhr(url, (err, response, body) => {
+      const perimetersUrl = `${PROXY_API_ENDPOINT}/perimeter/${this.inciwebid}`;
+      xhr(perimetersUrl, (err, response, body) => {
         if (err) throw err;
         const perimeterCollection = JSON.parse(body);
         if (!this.el) return;
@@ -72,6 +72,16 @@ const Detail = React.createClass({
         }
       });
     }
+
+    const articlesUrl = `${PROXY_API_ENDPOINT}/articles/${this.inciwebid}`;
+    xhr(articlesUrl, (err, response, body) => {
+      if (err) throw err;
+      const articles = JSON.parse(body);
+      this.setState({
+        articles,
+        articlesLoading: false,
+      });
+    });
 
     this.el.focus();
   },
@@ -208,8 +218,16 @@ const Detail = React.createClass({
     }
 
     let feed = null;
-    if (this.state.articles)  {
-      const articles = JSON.parse(this.state.articles).map((article, i) => {
+    if (this.state.articlesLoading) {
+      feed = (
+        <div className='contain row2 space-top2'>
+          <div className='loading' />
+        </div>
+      );
+    } else if (!this.state.articles || this.state.articles.length === 0) {
+      feed = null;
+    } else {
+      const articleEls = this.state.articles.map((article, i) => {
         // Remove the occasional total duplicate
         if (article.description === firePoint.properties.description) return null;
         return (
@@ -232,16 +250,14 @@ const Detail = React.createClass({
         );
       });
 
-      if (articles.length > 0) {
-        feed = (
-          <div>
-            <div className='strong space-top2 space-bottom1'>
-              Reports
-            </div>
-            {articles}
+      feed = (
+        <div>
+          <div className='strong space-top2 space-bottom1'>
+            Reports
           </div>
-        );
-      }
+          {articleEls}
+        </div>
+      );
     }
 
     let news = null;
