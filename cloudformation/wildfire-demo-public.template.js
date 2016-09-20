@@ -27,10 +27,6 @@ module.exports = {
       Type: 'String',
       Description: 'points tileset name',
     },
-    articlesDatasetId: {
-      Type: 'String',
-      Description: 'articles dataset id',
-    },
     maxPerimetersDatasetId: {
       Type: 'String',
       Description: 'max perimeters dataset id',
@@ -206,7 +202,6 @@ module.exports = {
         mapboxAccessToken: { Ref: 'mapboxAccessToken' },
         pointsDatasetId: { Ref: 'pointsDatasetId' },
         pointsTilesetName: { Ref: 'pointsTilesetName' },
-        articlesDatasetId: { Ref: 'articlesDatasetId' },
         maxPerimetersDatasetId: { Ref: 'maxPerimetersDatasetId' },
         maxPerimetersTilesetName: { Ref: 'maxPerimetersTilesetName' },
         perimeterDatasetNamePrefix: { Ref: 'perimeterDatasetNamePrefix' },
