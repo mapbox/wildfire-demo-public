@@ -7,7 +7,7 @@ const initDetail = require('./initDetail');
 const Intro = require('./Intro');
 const constants = require('./constants');
 
-mapboxgl.accessToken = 'pk.eyJ1IjoiZGF2aWR0aGVjbGFyayIsImEiOiJjaW93emVwanowMW5ldGhtNGI2N293eDY3In0.-hV-UWrYPEZWbILtCFFbOg';
+mapboxgl.accessToken = constants.MAPBOX_ACCESS_TOKEN;
 
 const mapContainer = document.getElementById('map');
 const introContainer = document.getElementById('intro');

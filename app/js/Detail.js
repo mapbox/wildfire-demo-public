@@ -26,6 +26,8 @@ const Detail = React.createClass({
       showingTimeline: false,
       showingNews: false,
       headerSize: null,
+      articlesLoading: true,
+      articles: null,
     };
   },
 
@@ -206,8 +208,8 @@ const Detail = React.createClass({
     }
 
     let feed = null;
-    if (firePoint.properties.articles)  {
-      const articles = JSON.parse(firePoint.properties.articles).map((article, i) => {
+    if (this.state.articles)  {
+      const articles = JSON.parse(this.state.articles).map((article, i) => {
         // Remove the occasional total duplicate
         if (article.description === firePoint.properties.description) return null;
         return (

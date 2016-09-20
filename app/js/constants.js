@@ -1,6 +1,7 @@
 'use strict';
 
 module.exports = {
+  MAPBOX_ACCESS_TOKEN: 'pk.eyJ1IjoiZGF2aWR0aGVjbGFyayIsImEiOiJjaW93emVwanowMW5ldGhtNGI2N293eDY3In0.-hV-UWrYPEZWbILtCFFbOg',
   MIN_ZOOM: 4,
   MAX_ZOOM: 12.5,
   DATASET_NAME: 'fires',
