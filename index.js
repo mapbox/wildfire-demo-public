@@ -4,6 +4,7 @@
 const streambot = require('streambot');
 const update = require('./lib/update');
 const listFeaturesByInciwebid = require('./lib/listFeaturesByInciwebid');
+const listArticlesByInciwebid = require('./lib/listArticlesByInciwebid');
 
 module.exports.update = streambot((event, callback) => {
   update({
@@ -32,10 +33,20 @@ module.exports.update = streambot((event, callback) => {
     });
 });
 
-module.exports.proxy = function (event, context, callback) {
-  listFeaturesByInciwebid(event)
+module.exports.perimeterProxy = function (apiEvent, context, callback) {
+  listFeaturesByInciwebid(apiEvent)
     .then((features) => {
       callback(null, features);
+    })
+    .catch((err) => {
+      callback(err);
+    });
+};
+
+module.exports.articlesProxy = function (apiEvent, context, callback) {
+  listArticlesByInciwebid(apiEvent)
+    .then((articles) => {
+      callback(null, articles);
     })
     .catch((err) => {
       callback(err);
