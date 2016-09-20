@@ -4,12 +4,18 @@
 const streambot = require('streambot');
 const update = require('./lib/update');
 const listFeaturesByInciwebid = require('./lib/listFeaturesByInciwebid');
+const listArticlesByInciwebid = require('./lib/listArticlesByInciwebid');
 
 module.exports.update = streambot((event, callback) => {
   update({
-    datasetId: process.env.wildfireDatasetId,
-    ownerId: process.env.wildfireOwnerId,
-    mapboxAccessToken: process.env.wildfireMapboxAccessToken,
+    ownerId: process.env.ownerId,
+    mapboxAccessToken: process.env.mapboxAccessToken,
+    pointsDatasetId: process.env.pointsDatasetId,
+    pointsTilesetName: process.env.pointsTilesetName,
+    articlesDatasetId: process.env.articlesDatasetId,
+    maxPerimetersDatasetId: process.env.maxPerimetersDatasetId,
+    maxPerimetersTilesetName: process.env.maxPerimetersTilesetName,
+    perimeterDatasetNamePrefix: process.env.perimeterDatasetNamePrefix,
   })
     .then(() => {
       console.log('Successful update');
@@ -27,10 +33,20 @@ module.exports.update = streambot((event, callback) => {
     });
 });
 
-module.exports.proxy = function (event, context, callback) {
-  listFeaturesByInciwebid(event)
+module.exports.perimeterProxy = function (apiEvent, context, callback) {
+  listFeaturesByInciwebid(apiEvent)
     .then((features) => {
       callback(null, features);
+    })
+    .catch((err) => {
+      callback(err);
+    });
+};
+
+module.exports.articlesProxy = function (apiEvent, context, callback) {
+  listArticlesByInciwebid(apiEvent)
+    .then((articles) => {
+      callback(null, articles);
     })
     .catch((err) => {
       callback(err);

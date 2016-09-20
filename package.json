@@ -9,7 +9,7 @@
     "start": "budo app/js/app.js --live --open --dir ./app -- -t babelify",
     "build": "NODE_ENV='production' browserify -t babelify app/js/app.js | uglifyjs - --compress --mangle > bites/app.js && cp app/index.html bites/index.html && cp app/style.css bites/style.css && cp app/img/* bites/img",
     "bite": "cp -R bites/* ../bites/bites/00288",
-    "manual-update": "local/manualUpdate.js"
+    "manual-update": "local/manuallyUpdatePerimeters.js"
   },
   "engines": {
     "node": "4.4.3"
@@ -18,7 +18,9 @@
   "license": "ISC",
   "dependencies": {
     "@turf/bbox": "^3.3.3",
+    "@turf/simplify": "^3.5.2",
     "arcgis-to-geojson-utils": "^1.0.1",
+    "chalk": "^1.1.3",
     "d3-queue": "^3.0.2",
     "escape-html": "^1.0.3",
     "lodash": "^4.15.0",

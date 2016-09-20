@@ -11,17 +11,37 @@ module.exports = {
       Type: 'String',
       Description: 'The SHA',
     },
-    wildfireDatasetId: {
-      Type: 'String',
-      Description: 'dataset id',
-    },
-    wildfireOwnerId: {
+    ownerId: {
       Type: 'String',
       Description: 'owner id',
     },
-    wildfireMapboxAccessToken: {
+    mapboxAccessToken: {
       Type: 'String',
       Description: 'mapbox access token',
+    },
+    pointsDatasetId: {
+      Type: 'String',
+      Description: 'points dataset id',
+    },
+    pointsTilesetName: {
+      Type: 'String',
+      Description: 'points tileset name',
+    },
+    articlesDatasetId: {
+      Type: 'String',
+      Description: 'articles dataset id',
+    },
+    maxPerimetersDatasetId: {
+      Type: 'String',
+      Description: 'max perimeters dataset id',
+    },
+    maxPerimetersTilesetName: {
+      Type: 'String',
+      Description: 'max perimeters tileset name',
+    },
+    perimeterDatasetNamePrefix: {
+      Type: 'String',
+      Description: 'prefix for perimeter dataset names',
     },
     StreambotFunctionArn: {
       Type: 'String',
@@ -182,9 +202,14 @@ module.exports = {
         FunctionName: {
           Ref: 'UpdateFunction',
         },
-        wildfireDatasetId: { Ref: 'wildfireDatasetId' },
-        wildfireOwnerId: { Ref: 'wildfireOwnerId' },
-        wildfireMapboxAccessToken: { Ref: 'wildfireMapboxAccessToken' },
+        ownerId: { Ref: 'ownerId' },
+        mapboxAccessToken: { Ref: 'mapboxAccessToken' },
+        pointsDatasetId: { Ref: 'pointsDatasetId' },
+        pointsTilesetName: { Ref: 'pointsTilesetName' },
+        articlesDatasetId: { Ref: 'articlesDatasetId' },
+        maxPerimetersDatasetId: { Ref: 'maxPerimetersDatasetId' },
+        maxPerimetersTilesetName: { Ref: 'maxPerimetersTilesetName' },
+        perimeterDatasetNamePrefix: { Ref: 'perimeterDatasetNamePrefix' },
       },
     },
     ProxyRole: {
@@ -216,7 +241,7 @@ module.exports = {
         ],
       },
     },
-    ProxyFunction: {
+    PerimeterProxyFunction: {
       Type: 'AWS::Lambda::Function',
       Properties: {
         Role: { 'Fn::GetAtt': ['ProxyRole', 'Arn'] },
@@ -241,8 +266,40 @@ module.exports = {
             ],
           },
         },
-        Description: 'Read wildfire perimeters',
-        Handler: 'index.proxy',
+        Description: 'Read wildfire perimeters from Datasets API',
+        Handler: 'index.perimeterProxy',
+        MemorySize: 512,
+        Runtime: 'nodejs4.3',
+        Timeout: 300,
+      },
+    },
+    AriclesProxyFunction: {
+      Type: 'AWS::Lambda::Function',
+      Properties: {
+        Role: { 'Fn::GetAtt': ['ProxyRole', 'Arn'] },
+        Code: {
+          S3Bucket: {
+            'Fn::Join': [
+              '',
+              [
+                'mapbox-',
+                { Ref: 'AWS::Region' },
+              ],
+            ],
+          },
+          S3Key: {
+            'Fn::Join': [
+              '',
+              [
+                'slugs/wildfire-demo-public/',
+                { Ref: 'GitSha' },
+                '.zip',
+              ],
+            ],
+          },
+        },
+        Description: 'Read wildfire articles from Inciweb RSS feeds',
+        Handler: 'index.articlesProxy',
         MemorySize: 512,
         Runtime: 'nodejs4.3',
         Timeout: 300,
@@ -295,7 +352,23 @@ module.exports = {
         PathPart: '{id}',
       },
     },
-    ProxyOptionsMethod: {
+    ProxyArticlesResource: {
+      Type: 'AWS::ApiGateway::Resource',
+      Properties: {
+        ParentId: { 'Fn::GetAtt': ['ProxyApi', 'RootResourceId'] },
+        RestApiId: { Ref: 'ProxyApi' },
+        PathPart: 'articles',
+      },
+    },
+    ProxyArticlesIdResource: {
+      Type: 'AWS::ApiGateway::Resource',
+      Properties: {
+        ParentId: { Ref: 'ProxyArticlesResource' },
+        RestApiId: { Ref: 'ProxyApi' },
+        PathPart: '{id}',
+      },
+    },
+    ProxyPerimeterOptionsMethod: {
       Type: 'AWS::ApiGateway::Method',
       Properties: {
         RestApiId: { Ref: 'ProxyApi' },
@@ -330,7 +403,7 @@ module.exports = {
         },
       },
     },
-    ProxyGetMethod: {
+    ProxyPerimeterGetMethod: {
       Type: 'AWS::ApiGateway::Method',
       Properties: {
         RestApiId: { Ref: 'ProxyApi' },
@@ -362,9 +435,12 @@ module.exports = {
               'Fn::Join': [
                 '',
                 [
-                  '{"wildfireMapboxAccessToken":"',
-                  { Ref: 'wildfireMapboxAccessToken' },
-                  '","inciwebid":"$input.params(\'id\')"}',
+                  '{"mapboxAccessToken":"',
+                  { Ref: 'mapboxAccessToken' },
+                  '","inciwebid":"$input.params(\'id\')",',
+                  '"perimeterDatasetNamePrefix":"',
+                  { Ref: 'perimeterDatasetNamePrefix' },
+                  '"}',
                 ],
               ],
             },
@@ -388,7 +464,7 @@ module.exports = {
                 'arn:aws:apigateway:',
                 { Ref: 'AWS::Region' },
                 ':lambda:path/2015-03-31/functions/',
-                { 'Fn::GetAtt': ['ProxyFunction', 'Arn'] },
+                { 'Fn::GetAtt': ['PerimeterProxyFunction', 'Arn'] },
                 '/invocations',
               ],
             ],
@@ -396,10 +472,124 @@ module.exports = {
         },
       },
     },
-    ProxyPermission: {
+    ProxyArticlesOptionsMethod: {
+      Type: 'AWS::ApiGateway::Method',
+      Properties: {
+        RestApiId: { Ref: 'ProxyApi' },
+        ResourceId: { Ref: 'ProxyArticlesIdResource' },
+        AuthorizationType: 'None',
+        HttpMethod: 'OPTIONS',
+        MethodResponses: [
+          {
+            StatusCode: 200,
+            ResponseModels: {
+              'application/json': 'Empty',
+            },
+            ResponseParameters: {
+              'method.response.header.Access-Control-Allow-Headers': true,
+              'method.response.header.Access-Control-Allow-Methods': true,
+              'method.response.header.Access-Control-Allow-Origin': true,
+            },
+          },
+        ],
+        Integration: {
+          Type: 'MOCK',
+          IntegrationResponses: [
+            {
+              StatusCode: 200,
+              ResponseParameters: {
+                'method.response.header.Access-Control-Allow-Headers': '\'*\'',
+                'method.response.header.Access-Control-Allow-Methods': '\'GET,OPTIONS\'',
+                'method.response.header.Access-Control-Allow-Origin': '\'*\'',
+              },
+            },
+          ],
+        },
+      },
+    },
+    ProxyArticlesGetMethod: {
+      Type: 'AWS::ApiGateway::Method',
+      Properties: {
+        RestApiId: { Ref: 'ProxyApi' },
+        ResourceId: { Ref: 'ProxyArticlesIdResource' },
+        AuthorizationType: 'None',
+        HttpMethod: 'GET',
+        MethodResponses: [
+          {
+            StatusCode: 200,
+            ResponseModels: {
+              'application/json': 'Empty',
+            },
+            ResponseParameters: {
+              'method.response.header.Access-Control-Allow-Origin': true,
+            },
+          },
+          {
+            StatusCode: 500,
+            ResponseModels: {
+              'application/json': 'Empty',
+            },
+          },
+        ],
+        Integration: {
+          Type: 'AWS',
+          IntegrationHttpMethod: 'POST',
+          RequestTemplates: {
+            'application/json': '{"inciwebid":"$input.params(\'id\')"}',
+          },
+          IntegrationResponses: [
+            {
+              StatusCode: 200,
+              ResponseParameters: {
+                'method.response.header.Access-Control-Allow-Origin': '\'*\'',
+              },
+            },
+            {
+              StatusCode: 500,
+              SelectionPattern: 'error',
+            },
+          ],
+          Uri: {
+            'Fn::Join': [
+              '',
+              [
+                'arn:aws:apigateway:',
+                { Ref: 'AWS::Region' },
+                ':lambda:path/2015-03-31/functions/',
+                { 'Fn::GetAtt': ['AriclesProxyFunction', 'Arn'] },
+                '/invocations',
+              ],
+            ],
+          },
+        },
+      },
+    },
+    PerimeterProxyPermission: {
       Type: 'AWS::Lambda::Permission',
       Properties: {
-        FunctionName: { Ref: 'ProxyFunction' },
+        FunctionName: { Ref: 'PerimeterProxyFunction' },
+        Action: 'lambda:InvokeFunction',
+        Principal: 'apigateway.amazonaws.com',
+        SourceArn: {
+          'Fn::Join': [
+            '',
+            [
+              'arn:aws:execute-api:',
+              { Ref: 'AWS::Region' },
+              ':',
+              { Ref: 'AWS::AccountId' },
+              ':',
+              { Ref: 'ProxyApi' },
+              '/*',
+            ],
+          ],
+        },
+      },
+    },
+    AriclesProxyPermission: {
+      Type: 'AWS::Lambda::Permission',
+      Properties: {
+        FunctionName: { Ref: 'AriclesProxyFunction' },
         Action: 'lambda:InvokeFunction',
         Principal: 'apigateway.amazonaws.com',
         SourceArn: {
@@ -429,7 +619,7 @@ module.exports = {
             { Ref: 'ProxyApi' },
             '.execute-api.',
             { Ref: 'AWS::Region' },
-            '.amazonaws.com/wildfires/perimeter',
+            '.amazonaws.com/wildfires',
           ],
         ],
       },
@@ -439,7 +629,12 @@ module.exports = {
 
 module.exports.Resources[deploymentName] = {
   Type: 'AWS::ApiGateway::Deployment',
-  DependsOn: ['ProxyGetMethod', 'ProxyOptionsMethod'],
+  DependsOn: [
+    'ProxyPerimeterGetMethod',
+    'ProxyPerimeterOptionsMethod',
+    'ProxyArticlesGetMethod',
+    'ProxyArticlesOptionsMethod',
+  ],
   Properties: {
     RestApiId: { Ref: 'ProxyApi' },
     StageName: 'unused',

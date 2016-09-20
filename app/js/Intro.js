@@ -45,7 +45,7 @@ const Intro = React.createClass({
                 <div className='intro-grid-item col4 pad1'>
                   <img src={timelineSrc} />
                   <div className='space-top1'>
-                    For fires that have burned over 10,000 acres, check out the Timeline to see how that fire's perimeter has changed over time.
+                    For fires with available perimeter data, check out the Timeline to see how a fire's perimeter has changed over time.
                   </div>
                 </div>
               </div>

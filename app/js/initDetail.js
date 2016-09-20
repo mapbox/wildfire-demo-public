@@ -28,7 +28,7 @@ module.exports = function (map) {
     detailEl.classList.add('is-hidden');
 
     if (!callback) {
-      map.zoomTo(5);
+      map.zoomTo(constants.MIN_ZOOM);
     }
 
     setTimeout(() => {
