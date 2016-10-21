@@ -32,7 +32,7 @@ map.dragRotate.disable();
 map.touchZoomRotate.disableRotation();
 
 if (!isSmallScreen) {
-  map.addControl(new mapboxgl.Navigation({ position: 'bottom-left' }));
+  map.addControl(new mapboxgl.NavigationControl({ position: 'bottom-left' }));
 }
 
 map.on('load', () => {
