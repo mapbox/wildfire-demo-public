@@ -88,7 +88,7 @@ module.exports = {
       Type: 'AWS::Events::Rule',
       Properties: {
         Description: 'ScheduledRule',
-        ScheduleExpression: 'rate(30 minutes)',
+        ScheduleExpression: 'rate(2 hours)',
         State: 'ENABLED',
         Targets: [{
           Arn: { 'Fn::GetAtt': ['UpdateFunction', 'Arn'] },
