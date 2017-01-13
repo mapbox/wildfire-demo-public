@@ -4,12 +4,11 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "update": "bin/update.js",
     "lint": "eslint lib scripts app",
     "start": "budo app/js/app.js --live --open --dir ./app -- -t babelify",
     "build": "NODE_ENV='production' browserify -t babelify app/js/app.js | uglifyjs - --compress --mangle > bites/app.js && cp app/index.html bites/index.html && cp app/style.css bites/style.css && cp app/img/* bites/img",
     "bite": "cp -R bites/* ../bites/bites/00288",
-    "manual-update": "local/manuallyUpdatePerimeters.js"
+    "manual-update": "node local/update.js"
   },
   "engines": {
     "node": "4.4.3"
