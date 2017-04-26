@@ -167,7 +167,7 @@ module.exports = {
         Description: 'Update wildfire data',
         Handler: 'index.update',
         MemorySize: 1000,
-        Runtime: 'nodejs4.3',
+        Runtime: 'nodejs6.10',
         Timeout: 300,
         Environment: {
           Variables: {
@@ -239,7 +239,7 @@ module.exports = {
         Description: 'Read wildfire perimeters from Datasets API',
         Handler: 'index.perimeterProxy',
         MemorySize: 512,
-        Runtime: 'nodejs4.3',
+        Runtime: 'nodejs6.10',
         Timeout: 300,
       },
     },
@@ -271,7 +271,7 @@ module.exports = {
         Description: 'Read wildfire articles from Inciweb RSS feeds',
         Handler: 'index.articlesProxy',
         MemorySize: 512,
-        Runtime: 'nodejs4.3',
+        Runtime: 'nodejs6.10',
         Timeout: 300,
       },
     },
