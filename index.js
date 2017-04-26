@@ -1,12 +1,11 @@
 'use strict';
 /* eslint-disable no-console */
 
-const streambot = require('streambot');
 const update = require('./lib/update');
 const listFeaturesByInciwebid = require('./lib/listFeaturesByInciwebid');
 const listArticlesByInciwebid = require('./lib/listArticlesByInciwebid');
 
-module.exports.update = streambot((event, callback) => {
+module.exports.update = (event, context, callback) => {
   update({
     ownerId: process.env.ownerId,
     mapboxAccessToken: process.env.mapboxAccessToken,
@@ -30,7 +29,7 @@ module.exports.update = streambot((event, callback) => {
         callback(new Error(err && err.message));
       }
     });
-});
+};
 
 module.exports.perimeterProxy = function (apiEvent, context, callback) {
   listFeaturesByInciwebid(apiEvent)
