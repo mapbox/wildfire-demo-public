@@ -11,7 +11,7 @@
     "manual-update": "node local/update.js"
   },
   "engines": {
-    "node": "4.4.3"
+    "node": "6.10.0"
   },
   "author": "",
   "license": "ISC",
@@ -27,7 +27,6 @@
     "react": "^15.3.1",
     "react-dom": "^15.3.1",
     "request": "^2.74.0",
-    "streambot": "^4.0.0",
     "xhr": "^2.2.2",
     "xml2js": "^0.4.17"
   },

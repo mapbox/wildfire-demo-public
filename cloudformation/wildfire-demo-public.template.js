@@ -39,10 +39,6 @@ module.exports = {
       Type: 'String',
       Description: 'prefix for perimeter dataset names',
     },
-    StreambotFunctionArn: {
-      Type: 'String',
-      Description: 'ARN for Streambot\'s configuration lambda function',
-    },
     AlarmEmail: {
       Type: 'String',
       Description: 'where to send alarms',
@@ -129,22 +125,6 @@ module.exports = {
                 },
                 {
                   Effect: 'Allow',
-                  Action: ['dynamodb:GetItem'],
-                  Resource: {
-                    'Fn::Join': [
-                      '',
-                      [
-                        'arn:aws:dynamodb:',
-                        { Ref: 'AWS::Region' },
-                        ':',
-                        { Ref: 'AWS::AccountId' },
-                        ':table/streambot-env*',
-                      ],
-                    ],
-                  },
-                },
-                {
-                  Effect: 'Allow',
                   Action: ['apigateway:*'],
                   Resource: 'arn:aws:apigateway:*::/*',
                 },
@@ -187,24 +167,19 @@ module.exports = {
         Description: 'Update wildfire data',
         Handler: 'index.update',
         MemorySize: 1000,
-        Runtime: 'nodejs4.3',
+        Runtime: 'nodejs6.10',
         Timeout: 300,
-      },
-    },
-    UpdateFunctionConfig: {
-      Type: 'Custom::StreambotEnv',
-      Properties: {
-        ServiceToken: { Ref: 'StreambotFunctionArn' },
-        FunctionName: {
-          Ref: 'UpdateFunction',
+        Environment: {
+          Variables: {
+            ownerId: { Ref: 'ownerId' },
+            mapboxAccessToken: { Ref: 'mapboxAccessToken' },
+            pointsDatasetId: { Ref: 'pointsDatasetId' },
+            pointsTilesetName: { Ref: 'pointsTilesetName' },
+            maxPerimetersDatasetId: { Ref: 'maxPerimetersDatasetId' },
+            maxPerimetersTilesetName: { Ref: 'maxPerimetersTilesetName' },
+            perimeterDatasetNamePrefix: { Ref: 'perimeterDatasetNamePrefix' },
+          }
         },
-        ownerId: { Ref: 'ownerId' },
-        mapboxAccessToken: { Ref: 'mapboxAccessToken' },
-        pointsDatasetId: { Ref: 'pointsDatasetId' },
-        pointsTilesetName: { Ref: 'pointsTilesetName' },
-        maxPerimetersDatasetId: { Ref: 'maxPerimetersDatasetId' },
-        maxPerimetersTilesetName: { Ref: 'maxPerimetersTilesetName' },
-        perimeterDatasetNamePrefix: { Ref: 'perimeterDatasetNamePrefix' },
       },
     },
     ProxyRole: {
@@ -264,7 +239,7 @@ module.exports = {
         Description: 'Read wildfire perimeters from Datasets API',
         Handler: 'index.perimeterProxy',
         MemorySize: 512,
-        Runtime: 'nodejs4.3',
+        Runtime: 'nodejs6.10',
         Timeout: 300,
       },
     },
@@ -296,7 +271,7 @@ module.exports = {
         Description: 'Read wildfire articles from Inciweb RSS feeds',
         Handler: 'index.articlesProxy',
         MemorySize: 512,
-        Runtime: 'nodejs4.3',
+        Runtime: 'nodejs6.10',
         Timeout: 300,
       },
     },
