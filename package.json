@@ -14,7 +14,7 @@
     "node": "6.10.0"
   },
   "author": "",
-  "license": "ISC",
+  "license": "MIT",
   "dependencies": {
     "@turf/bbox": "^3.3.3",
     "@turf/simplify": "^3.5.2",
